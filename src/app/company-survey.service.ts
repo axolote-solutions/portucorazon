@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as Rx from "rxjs/Rx";
-import { from, Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Survey } from './survey.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +10,12 @@ export class CompanySurveyService {
   constructor(
     public httpClient: HttpClient
   ) { }
+
+  getCompanySurvey(surveyConfigurationId :String, companySurveyId :String) {
+    let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/" + surveyConfigurationId + "/" + companySurveyId; 
+
+    return this.httpClient.get<Survey>(url);
+  }
 
 
 }

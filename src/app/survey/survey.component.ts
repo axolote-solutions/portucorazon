@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { CompanySurveyService } from '../company-survey.service';
+import { Survey } from '../survey.model'
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -10,27 +12,32 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SurveyComponent implements OnInit {
 
+  survey: Survey;
+
+  respond = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
-    public httpClient: HttpClient
+    private companySurveyService: CompanySurveyService
   ) { }
 
   ngOnInit(): void {
     let surveyConfigurationId = this.activatedRoute.snapshot.params.surveyConfigurationId;
-    let companySurvey = this.activatedRoute.snapshot.params.companySurvey;
+    let companySurveyId = this.activatedRoute.snapshot.params.companySurveyId;
 
-    this.getCompanySurvey(surveyConfigurationId, companySurvey);
+    this.companySurveyService.getCompanySurvey(surveyConfigurationId, companySurveyId).subscribe(
+      data=> {
+        this.survey = data;
+      }, error => {
+        console.log(error);
+      }
+    )
   }
 
-  getCompanySurvey(surveyConfigurationId :String, companySurvey :String) {
-    let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/" + surveyConfigurationId + "/" +companySurvey 
+  answer(): void {
+    this.respond = !this.respond;
 
-    return this.httpClient.get(url).subscribe(data => {
-      console.log(data);
-    })
-    
+
   }
-
-
 
 }

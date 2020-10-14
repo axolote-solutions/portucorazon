@@ -1,4 +1,129 @@
+
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+//html, body { height: 100%; }
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@page {
+  size: a3;
+}
+body {
+  min-width: 992px !important;
+}
+
+.page-section {
+  padding: 3rem 0;
+}
+
+.page-section .page-section-heading {
+font-size: 2.25rem;
+line-height: 2rem;
+}
+@media (min-width: 992px) {
+.page-section .page-section-heading {
+  font-size: 3rem;
+  line-height: 2.5rem;
+}
+}
+
+.divider-custom {
+margin: 1.25rem 0 1.5rem;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.divider-custom .divider-custom-line {
+width: 100%;
+max-width: 7rem;
+height: 0.25rem;
+background-color: #2c3e50;
+border-radius: 1rem;
+border-color: #2c3e50 !important;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #67757c;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.5rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #20aee3;
+  /*border-color: #20aee3;*/
+}
+
+.btn-info:hover{
+  color: #fff;
+  background-color: #26b8ed;
+}
+
+.btn-home{
+  text-transform: uppercase;
+  font-size: .75rem;
+}
+
+.home-header{
+  background-color:  #20aee3;
+}
+
+.personal{
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: auto;
+}
+
+.personalQ{
+width: 100%;
+box-shadow: 5px 10px 20px #d6dce0;
+padding: .75rem;
+margin: 1rem;
+}
+
+.question{
+box-shadow: 5px 10px 20px #aaaaaa;
+width: 100%;
+padding: 1rem;  
+margin: 2rem;
+}
+
+.section{
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+.mat-form.field[type=text]:focus{
+width: 400px;
+}
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+background-color: #20aee3;
+color: #fff;
+}
+
+.example-radio-group {
+display: flex;
+flex-direction: column;
+margin: 15px 0;
+}
+
+.example-radio-button {
+margin: 5px;
+}

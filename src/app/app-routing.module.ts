@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SurveyComponent } from './survey/survey.component';
 
 const routes: Routes = [
-  { path: 'survey/:surveyConfigurationId/:companySurvey', component: SurveyComponent}
+  { path: 'survey/:surveyConfigurationId/:companySurveyId', component: SurveyComponent}
 ];
 
 @NgModule({
