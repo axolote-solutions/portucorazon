@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SurveyComponent } from './survey/survey.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CompanySurveyService } from './company-survey.service';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -24,6 +24,10 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { SurveyResponseComponent } from './survey-response/survey-response.component';
 import { WeighingMessageComponent } from './weighing-message/weighing-message.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MyLoaderComponent } from './components/my-loader/my-loader.component';
+import { LoaderService } from './services/loader.service';
+import { LoaderInterceptorService } from './interceptors/loader-interceptor.service';
+
 
 
 @NgModule({
@@ -31,7 +35,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     AppComponent,
     SurveyComponent,
     SurveyResponseComponent,
-    WeighingMessageComponent
+    WeighingMessageComponent,
+    MyLoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +60,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule
   ],
   providers: [
-    CompanySurveyService
+    CompanySurveyService,
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })
