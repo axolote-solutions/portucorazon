@@ -1,4 +1,5 @@
 import { Question } from "./question.model";
+import { WeighingMessages } from "./weighing-messages.model"
 
 export interface Section {
     name: string;
@@ -8,4 +9,5 @@ export interface Section {
     enabled: boolean;
     weighing: boolean;
     questions: Array<Question>
+    weighingMessages: Array<WeighingMessages>
 }

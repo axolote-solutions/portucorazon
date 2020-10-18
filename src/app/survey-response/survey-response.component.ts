@@ -17,7 +17,7 @@ export class SurveyResponseComponent implements OnInit {
   surveyForm: FormGroup;
   surveyConfigurationId = "";
   companySurveyId= "";
-  console = console;
+  //console = console;
 
   constructor(
     private fb: FormBuilder, 
@@ -41,6 +41,10 @@ export class SurveyResponseComponent implements OnInit {
       this.addSection();
       if(section.enabled) {
         for(let question of section.questions) {
+          if(question.display === undefined) {
+            question.display = true;
+          }
+          
           this.addResponse(i, question, section.name);
         }
       }
@@ -68,15 +72,24 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   
-  newQuestionResponse(question: Question, sectionParent: string): FormGroup {
+  newQuestionResponse(question: Question, sectionParent: string, sectionIndex: number): FormGroup {
+
+    if(question.parent) {
+      for(let child of question.childQuestion) {
+        let q = child.questionNumber - 1;
+        this.survey.sections[sectionIndex].questions[q].display = false;
+      }
+      
+    } 
 
     let group = this.fb.group({});
-
 
     const sectionName = new FormControl(sectionParent);
     group.addControl('sectionName', sectionName);
     const questionText = new FormControl(question.questionText);
     group.addControl('questionText', questionText);
+    const questionNumber = new FormControl(question.questionNumber);
+    group.addControl('questionNumber', questionNumber)
     
     if(question.questionType === 'OPEN') {
       
@@ -85,27 +98,49 @@ export class SurveyResponseComponent implements OnInit {
         case 'INTEGER': 
               var pattern = /^\d+$/;
               //responseText = new FormControl('', [Validators.required, Validators.pattern(pattern)]);
-              responseText = new FormControl('', Validators.required);
+              if(question.mandatory) {
+                responseText = new FormControl('', Validators.required);
+              } else {
+                responseText = new FormControl('');
+              }
+              
               group.addControl('responseText', responseText);
               break;
         case 'EMAIL': //responseText = new FormControl('', [Validators.required, Validators.email]);
-              responseText = new FormControl('', [Validators.required, Validators.email]);
+              if(question.mandatory) {
+                responseText = new FormControl('', [Validators.required, Validators.email]);
+              } else {
+                responseText = new FormControl('', Validators.email);
+              }
               group.addControl('responseText', responseText);
               break;
         case 'FLOAT': 
               var pattern = /^-?\d+\.?\d*$/
               //responseText = new FormControl('', [Validators.required, Validators.pattern(pattern)]);
-              responseText = new FormControl('', Validators.required);
+              if(question.mandatory) {
+                responseText = new FormControl('', Validators.required);
+              } else {
+                responseText = new FormControl('');
+              }
               group.addControl('responseText', responseText);
               break;
         default : //responseText = new FormControl('', [Validators.required, Validators.email]);
-              responseText = new FormControl('', Validators.required);
+              if(question.mandatory) {
+                responseText = new FormControl('', Validators.required);
+              } else {
+                responseText = new FormControl('');
+              }
               group.addControl('responseText', responseText);
         break;
       }
       
     } else {
-      const responseOption = new FormControl('', Validators.required);
+      let responseOption: FormControl;
+      if(question.mandatory) {
+        responseOption = new FormControl('', Validators.required);
+      } else {
+        responseOption = new FormControl('');
+      }
       group.addControl('responseOption', responseOption);
     }
 
@@ -113,7 +148,7 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   addResponse(sectionIndex:number, question: Question, sectionName: string) {
-    this.questionResponses(sectionIndex).push(this.newQuestionResponse(question, sectionName));
+    this.questionResponses(sectionIndex).push(this.newQuestionResponse(question, sectionName, sectionIndex));
   }
 
    onSubmit() {
@@ -133,8 +168,16 @@ export class SurveyResponseComponent implements OnInit {
       for(let val of value) {
         points += val.responseOption.value;
       }
-      console.log(this.sectionsResponses().at(selectedIndex).get("sectionWeighing"));
+      
       this.sectionsResponses().at(selectedIndex).get("sectionWeighing").setValue(points);
+
+      for(let weigh of filledSection.weighingMessages) {
+        if(points < weigh.limit) {
+          alert(weigh.text);
+          break
+        }
+      }
+      
 
     }
     
@@ -143,8 +186,8 @@ export class SurveyResponseComponent implements OnInit {
   saveSurvey() {
     let responses = JSON.stringify(this.surveyForm.value);
 
-    let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId ;
-    // let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId ;
+    //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId ;
+    let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId ;
 
     const headers = { 'Content-Type': 'application/json' };
 
@@ -160,6 +203,22 @@ export class SurveyResponseComponent implements OnInit {
     )
   }
 
+  radioChange(event: any, section: number, question: number) {
+    
+    if(this.survey.sections[section].questions[question].parent) {
+      for(let childQuestion of this.survey.sections[section].questions[question].childQuestion) {
+        if(event.value.value === childQuestion.responseValue) {
+          let i = childQuestion.questionNumber - 1;
+          this.survey.sections[section].questions[i].display = true;
+        } else {
+          let i = childQuestion.questionNumber - 1;
+          this.survey.sections[section].questions[i].display = false;
+        }
+      }
+    }
+
+    
+  }
 
 
 }

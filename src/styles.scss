@@ -4,6 +4,9 @@
 //html, body { height: 100%; }
 //body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
 @page {
   size: a3;
 }
@@ -16,7 +19,7 @@ body {
 }
 
 .page-section .page-section-heading {
-font-size: 2.25rem;
+font-size: 8.25rem;
 line-height: 2rem;
 }
 @media (min-width: 992px) {
@@ -126,4 +129,14 @@ margin: 15px 0;
 
 .example-radio-button {
 margin: 5px;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
 }
