@@ -195,7 +195,7 @@ export class SurveyResponseComponent implements OnInit {
 
   openDialog(text: string): void {
     this.dialog.open(WeighingMessageComponent, {
-      width: '300px',
+      width: '100px',
       data: text
     });
   }
