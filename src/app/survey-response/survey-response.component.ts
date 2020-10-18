@@ -2,8 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Survey } from '../survey.model'
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Question } from '../question.model';
+import { MatDialog, MatDialogRef } from  '@angular/material/dialog';
+import { WeighingMessageComponent } from '../weighing-message/weighing-message.component';
 
 
 @Component({
@@ -23,7 +25,7 @@ export class SurveyResponseComponent implements OnInit {
     private fb: FormBuilder, 
     public httpClient: HttpClient,
     private activatedRoute: ActivatedRoute,
-    private router: Router) { 
+    private  dialog:  MatDialog) { 
 
     this.surveyForm=this.fb.group({
       sectionsResponses: this.fb.array([]) ,
@@ -165,16 +167,24 @@ export class SurveyResponseComponent implements OnInit {
       let value = this.sectionsResponses().at(selectedIndex).get("questionResponses").value ;
 
       let points: number = 0;
+      let i = 1;
       for(let val of value) {
+        i ++;
         points += val.responseOption.value;
       }
-      
+
+      if(filledSection.weighingAverage) {
+        points = points/i;
+      }
+    
       this.sectionsResponses().at(selectedIndex).get("sectionWeighing").setValue(points);
 
       for(let weigh of filledSection.weighingMessages) {
         if(points < weigh.limit) {
-          alert(weigh.text);
-          break
+          
+          this.openDialog(weigh.text);
+          
+          break;
         }
       }
       
@@ -183,11 +193,18 @@ export class SurveyResponseComponent implements OnInit {
     
   }
 
+  openDialog(text: string): void {
+    this.dialog.open(WeighingMessageComponent, {
+      width: '300px',
+      data: text
+    });
+  }
+
   saveSurvey() {
     let responses = JSON.stringify(this.surveyForm.value);
 
-    //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId ;
-    let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId ;
+    let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId ;
+    //let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId ;
 
     const headers = { 'Content-Type': 'application/json' };
 

@@ -22,13 +22,16 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SurveyResponseComponent } from './survey-response/survey-response.component';
+import { WeighingMessageComponent } from './weighing-message/weighing-message.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SurveyComponent,
-    SurveyResponseComponent
+    SurveyResponseComponent,
+    WeighingMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import { SurveyResponseComponent } from './survey-response/survey-response.compo
     MatStepperModule,
     MatTabsModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [
     CompanySurveyService

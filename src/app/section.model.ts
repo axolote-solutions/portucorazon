@@ -8,6 +8,7 @@ export interface Section {
     number: number;
     enabled: boolean;
     weighing: boolean;
+    weighingAverage: boolean;
     questions: Array<Question>
     weighingMessages: Array<WeighingMessages>
 }
