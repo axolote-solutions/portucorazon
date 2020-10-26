@@ -10,46 +10,85 @@
 @page {
   size: a3;
 }
+
+$bgcolor: snow;
+$text_white: ghostwhite;
+$main_color: #20aee3;
+$secondary_color: #072ab0;
+$secondary_color_disabled: #041866;
+$secondary_color_hover: #0830c9;
+$alert_color: #b02d07;
+$alert_color_hover: #c93308;
+
 body {
-  min-width: 992px !important;
-  background-color: snow;
+  background-color: $bgcolor;
 }
 
 .page-section {
   padding: 3rem 0;
+  // border-width: 3px;
+  // border-color: rgb(250, 246, 17);
+  // border-style: solid;
 }
 
-.page-section .page-section-heading {
-font-size: 8.25rem;
-line-height: 2rem;
+.title-heading {
+  text-align: center;
+  padding-top: 18px;
+  color: $text_white;
+  font-size: 38px;
+  font-weight: bold;
 }
-@media (min-width: 992px) {
-  .page-section .page-section-heading {
-  font-size: 3rem;
-  line-height: 2.5rem;
+@media (max-width: 768px) {
+  .title-heading {
+    font-size: calc(1rem + 3.3vw);
+    // color: red;
   }
 }
 
-.divider-custom {
-margin: 1.25rem 0 1.5rem;
-width: 100%;
-display: flex;
-justify-content: center;
-align-items: center;
+
+.control-group {
+  margin-top: 60px;
 }
-.divider-custom .divider-custom-line {
-width: 100%;
-max-width: 7rem;
-height: 0.25rem;
-background-color: #2c3e50;
-border-radius: 1rem;
-border-color: #2c3e50 !important;
+@media (max-width: 768px) {
+  .control-group {
+    margin-top: 30px;
+  }
 }
 
-.btn {
+.disclaimer {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  margin-left: 10px;
+  margin-right: 15px;
+  border-left: 5px solid #0b455b;
+  padding-left: 10px;
+}
+
+.left-button-wrapper {
+  justify-content: right;
+}
+
+
+// .divider-custom {
+// margin: 1.25rem 0 1.5rem;
+// width: 100%;
+// display: flex;
+// justify-content: center;
+// align-items: center;
+// }
+// .divider-custom .divider-custom-line {
+// width: 100%;
+// max-width: 7rem;
+// height: 0.25rem;
+// background-color: #2c3e50;
+// border-radius: 1rem;
+// border-color: #2c3e50 !important;
+// }
+
+.boton {
   display: inline-block;
   font-weight: 400;
-  color: #67757c;
+  color: $text_white;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -66,76 +105,96 @@ border-color: #2c3e50 !important;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.btn-info {
-  color: #fff;
-  background-color: #20aee3;
+.boton-info {
+  color: $text_white;
+  background-color: $secondary_color;
   /*border-color: #20aee3;*/
 }
 
-.btn-info:hover{
-  color: #fff;
-  background-color: #26b8ed;
+.boton-info:hover{
+  color: $bgcolor;
+  background-color: $secondary_color_hover;
 }
 
-.btn-home{
-  text-transform: uppercase;
+.boton-info:disabled {
+  background-color: $secondary_color_disabled;
+  color: $text_white;
+}
+
+.boton-cancel {
+  color: $text_white;
+  background-color: $alert_color;
+}
+
+.boton-cancel:hover {
+  color: $bgcolor;
+  background-color: $alert_color_hover;
+}
+
+.boton-home{
+  // text-transform: uppercase;
   font-size: .75rem;
 }
 
 .home-header{
-  background-color:  #20aee3;
+  background-color:  $main_color;
+}
+
+.prefix {
+  color: $text_white
 }
 
 .personal{
-display: flex;
-flex-direction: column;
-justify-content: center;
-padding: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: auto;
 }
 
-.personalQ{
-width: 100%;
-box-shadow: 5px 10px 20px #d6dce0;
-padding: .75rem;
-margin: 1rem;
-}
+// .personalQ{
+// width: 100%;
+// box-shadow: 5px 10px 20px #d6dce0;
+// padding: .75rem;
+// margin: 1rem;
+// }
 
-.question{
-box-shadow: 5px 10px 20px #082B39;
-width: 100%;
-padding: 1rem;  
-margin: 2rem;
-}
+// .question{
+//   box-shadow: 5px 10px 20px #082B39;
+//   width: 100%;
+//   padding: 1rem;  
+//   margin: 2rem;
+// }
 
 .section{
-display: flex;
-flex-direction: column;
-justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.mat-form.field[type=text]:focus{
-width: 400px;
-}
+// .mat-form.field[type=text]:focus{
+// width: 400px;
+// }
 
 .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
-background-color: #20aee3;
-color: #fff;
+background-color: $main_color;
+color: $text_white;
 }
 
-.example-radio-group {
-display: flex;
-flex-direction: column;
-margin: 15px 0;
-}
+// .example-radio-group {
+// display: flex;
+// flex-direction: column;
+// margin: 15px 0;
+// }
 
-.example-radio-button {
-  margin: 5px;
-  background-color: #e35520;
-}
+// .example-radio-button {
+//   margin: 5px;
+//   background-color: #e35520;
+// }
 
 .logo {
   width: 60px;
   height: 60px;
+
 }
 
 img {
@@ -143,5 +202,31 @@ img {
   height: 100%;
 }
 
+// .container{
+//   border-width: 1px;
+//   border-color: tomato;
+//   border-style: solid;
+// }
 
+// div{
+//   border-width: 1px;
+//   border-color: yellowgreen;
+//   border-style: solid;
+// }
+
+
+footer {
+  padding-top: 180px;
+  padding-bottom: 15px;
+  font-size: 11px;
+}
+
+.powered {
+  font-size: 10px;
+}
+
+blockquote {
+  background-color: #10607e;
+  color: $text_white;
+}
 

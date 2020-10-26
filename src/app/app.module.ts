@@ -27,6 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MyLoaderComponent } from './components/my-loader/my-loader.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptorService } from './interceptors/loader-interceptor.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 
 
@@ -57,7 +58,8 @@ import { LoaderInterceptorService } from './interceptors/loader-interceptor.serv
     MatTabsModule,
     FlexLayoutModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     CompanySurveyService,

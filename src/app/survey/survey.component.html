@@ -1,12 +1,5 @@
-<section *ngIf="!respond" class="page-section">
+<section *ngIf="!respond">
     <div class="container">
-        <!-- <h2 class="page-section-heading text-center text-secondary mb-0">{{survey.surveyName}}</h2> -->
-        <!-- <div class="divider-custom">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-line"></div>
-        </div> -->
-        <div class="divider-custom"></div>
 
         <div class="control-group">
             <p>La información que nos proporcione será confidencial, con el propósito de analizar patrones grupales, y no de carácter personal.</p> 
@@ -14,29 +7,40 @@
             <p>Al finalizar asegúrate de dar click en ENVIAR, de lo contrario tendrás que volver a responder el cuestionario.</p>
         </div>
 
-        <div class="divider-custom"></div>
-        <div class="control-group">
-            <p>
+        <div class="mt-5">
+            <div class="disclaimer">
                 Acepto que el Programa no es responsable por mi salud ya que no tiene por
-finalidad diagnosticar ni reemplazar las recomendaciones y/o las ordenes de mi
-médico tratante relacionado con mi salud, mi tratamiento o los medicamentos que
-me han prescrito.
-Los resultados de la encuesta me serán entregados al finalizar mi participación
-para mi conocimiento de factores de riesgode riesgo cardiovascular y será mi
-responsabilidad el acudir a mi médico. Acepto que la información de esta
-evaluación sin identificación será usada con fines estadísticos. Y además será
-tratada y resguarda en base con la ley de Federal de Protección de Datos
-Personales en posesión de particulares.
-Con toda la información de los puntos anteriores habiendo sido explicado de forma
-completa, clara y al haber sido contestadas todas mis preguntas al aceptar este
-            </p>
+                finalidad diagnosticar ni reemplazar las recomendaciones y/o las ordenes de mi
+                médico tratante relacionado con mi salud, mi tratamiento o los medicamentos que
+                me han prescrito.
+                Los resultados de la encuesta me serán entregados al finalizar mi participación
+                para mi conocimiento de factores de riesgode riesgo cardiovascular y será mi
+                responsabilidad el acudir a mi médico. Acepto que la información de esta
+                evaluación sin identificación será usada con fines estadísticos. Y además será
+                tratada y resguarda en base con la ley de Federal de Protección de Datos
+                Personales en posesión de particulares.
+                Con toda la información de los puntos anteriores habiendo sido explicado de forma
+                completa, clara y al haber sido contestadas todas mis preguntas al aceptar este
+            </div>
+            
+            <div class="row pt-4">
+                <div class="pl-4  text-right">
+                    <button type="button" class="boton boton-info boton-home" (click)="answer()">
+                        Acepto
+                    </button>
+                </div>
+                <div class="pl-1">
+                    <button type="button" class="boton boton-cancel boton-home">
+                        No Acepto
+                    </button>
+                </div>
+                <div></div>
+            </div>
+
+            
         </div>
 
-        <div class="divider-custom"></div>
-
-        <button type="button" class="btn btn-info btn-home" (click)="answer()">
-            Empezar
-        </button>
+        
     
     </div>
     
