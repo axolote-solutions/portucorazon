@@ -1,9 +1,7 @@
 <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
     <section class="page-section ">
         <div class="container">
-            <!-- <mat-card fxFlex > -->
-            <!-- <mat-card-content class="personal"> -->
-
+            
             <mat-horizontal-stepper labelPosition="bottom" formArrayName="sectionsResponses"
                 (selectionChange)="selectionChange($event)">
                 <mat-step *ngFor="let sectionResponse of sectionsResponses().controls; let s = index"
@@ -22,14 +20,18 @@
                             <div [ngSwitch]="survey.sections[s].questions[q].questionType">
 
                                 <div *ngSwitchCase="'OPEN'">
-                                    <div *ngIf="survey.sections[s].questions[q].display" >
-                                        <mat-label>{{survey.sections[s].questions[q].questionText}}</mat-label>
-                                        <mat-form-field fxFlex="80">
-                                            <input matInput required formControlName="responseText">
-                                        </mat-form-field>
+                                    <div *ngIf="survey.sections[s].questions[q].display" class="question">
+                                        <div class="question-header">
+                                            <label>{{survey.sections[s].questions[q].questionText}}</label>
+                                        </div>
+                                        <div class="pl-3">
+                                            <mat-form-field fxFlex="30">
+                                                <input matInput required formControlName="responseText">
+                                            </mat-form-field>
+                                        </div>
                                         <div *ngIf="questionResponse.get('responseText').invalid && (
                                                         questionResponse.get('responseText').dirty || questionResponse.get('responseText').touched)"
-                                            class="alert alert-danger">
+                                            class="alert alert-danger pl-3">
                                             <div *ngIf="questionResponse.get('responseText').errors.required">
                                                 Este campo es obligatorio.
                                             </div>
@@ -42,17 +44,21 @@
 
                                 <div *ngSwitchCase="'SELECT'">
                                     <div *ngIf="survey.sections[s].questions[q].display" class="question">
-                                        <mat-form-field fxFlex="80">
-                                            <mat-label>{{survey.sections[s].questions[q].questionText}}</mat-label>
-                                            <mat-select required formControlName="responseOption">
-                                                <mat-option
-                                                    *ngFor="let option of survey.sections[s].questions[q].options"
-                                                    [value]="option">{{option.text}}</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                        <div class="question-header">
+                                            <label>{{survey.sections[s].questions[q].questionText}}</label>
+                                        </div>
+                                        <div class="pl-3">
+                                            <mat-form-field fxFlex="80">
+                                                <mat-select required formControlName="responseOption">
+                                                    <mat-option
+                                                        *ngFor="let option of survey.sections[s].questions[q].options"
+                                                        [value]="option">{{option.text}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
                                         <div *ngIf="questionResponse.get('responseOption').invalid && (
                                                         questionResponse.get('responseOption').dirty || questionResponse.get('responseOption').touched)"
-                                            class="alert alert-danger">
+                                            class="alert alert-danger pl-3">
                                             <div *ngIf="questionResponse.get('responseOption').errors.required">
                                                 Este campo es obligatorio
                                             </div>
@@ -62,18 +68,22 @@
 
                                 <div *ngSwitchCase="'OPTION'">
                                     <div *ngIf="survey.sections[s].questions[q].display" class="question">
-                                        <label>{{survey.sections[s].questions[q].questionText}}</label>
-                                        <mat-radio-group class="example-radio-group" required
-                                            formControlName="responseOption">
-                                            <mat-radio-button class="example-radio-button"
-                                                *ngFor="let option of survey.sections[s].questions[q].options"
-                                                [value]="option" (change)="radioChange($event, s, q)">
-                                                {{option.text}}
-                                            </mat-radio-button>
-                                        </mat-radio-group>
+                                        <div class="question-header">
+                                            <label>{{survey.sections[s].questions[q].questionText}}</label>
+                                        </div>
+                                        <div class="pl-3">
+                                            <mat-radio-group class="example-radio-group" required
+                                                formControlName="responseOption">
+                                                <mat-radio-button class="example-radio-button"
+                                                    *ngFor="let option of survey.sections[s].questions[q].options"
+                                                    [value]="option" (change)="radioChange($event, s, q)">
+                                                    {{option.text}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
                                         <div *ngIf="questionResponse.get('responseOption').invalid && (
                                                         questionResponse.get('responseOption').dirty || questionResponse.get('responseOption').touched)"
-                                            class="alert alert-danger">
+                                            class="alert alert-danger pl-3">
                                             <div *ngIf="questionResponse.get('responseOption').errors.required">
                                                 Este campo es obligatorio
                                             </div>
@@ -116,9 +126,6 @@
                 </mat-step>
             </mat-horizontal-stepper>
 
-            <!-- </mat-card-content> -->
-
-            <!-- </mat-card> -->
         </div>
 
     </section>

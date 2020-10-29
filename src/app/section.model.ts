@@ -1,5 +1,7 @@
+import { from } from 'rxjs';
 import { Question } from "./question.model";
-import { WeighingMessages } from "./weighing-messages.model"
+import { WeighingMessages } from "./weighing-messages.model";
+import { MultiDimensionWeighingMessages } from "./multi-dimension-weighing-messages.model";
 
 export interface Section {
     name: string;
@@ -11,4 +13,5 @@ export interface Section {
     weighingAverage: boolean;
     questions: Array<Question>
     weighingMessages: Array<WeighingMessages>
+    multiDimensionWeighingMessages: Array<MultiDimensionWeighingMessages>
 }
