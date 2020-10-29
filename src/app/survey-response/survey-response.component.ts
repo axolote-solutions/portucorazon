@@ -165,37 +165,72 @@ export class SurveyResponseComponent implements OnInit {
     if(filledSection.weighing) {
 
       let value = this.sectionsResponses().at(selectedIndex).get("questionResponses").value ;
+      
+      //TODO verifica como cambiar este arreglo para que sea dinámico, por el momento tiene 4 elementos por las 4 dimensiones que puede tener la encuesta.
+      let sumDimensions: number[] = [0,0,0,0];
+      let countDimensions: number[] = [0,0,0,0];
 
-      let points: number = 0;
-      let i = 1;
+      let totalPoints: number = 0;
+      let index = 1;
       for(let val of value) {
-        i ++;
-        points += val.responseOption.value;
+        let questionDimension = filledSection.questions[index -1].dimension;
+
+        let questionPoints = val.responseOption.value;
+
+        sumDimensions[questionDimension -1] = sumDimensions[questionDimension -1] + questionPoints;
+        countDimensions[questionDimension - 1] = countDimensions[questionDimension - 1] + 1;
+
+        totalPoints += questionPoints;
+        index ++;
       }
 
       if(filledSection.weighingAverage) {
-        points = points/i;
+        totalPoints = totalPoints/index;
+
+        for(let i = 0; i < sumDimensions.length; i++) {
+          sumDimensions[i] = sumDimensions[i] / countDimensions[i];
+        }
       }
     
-      this.sectionsResponses().at(selectedIndex).get("sectionWeighing").setValue(points);
+      this.sectionsResponses().at(selectedIndex).get("sectionWeighing").setValue(totalPoints);
+
+      let allText: string[] = [];
+
+      var showMessage = false;
 
       for(let weigh of filledSection.weighingMessages) {
-        if(points < weigh.limit) {
+        
+        if(totalPoints < weigh.limit) {
           
-          this.openDialog(weigh.text);
-          
+          allText.push(weigh.text);
+          showMessage = true;
           break;
         }
       }
+
+      for(var weighDimension of filledSection.multiDimensionWeighingMessages) {
+        for(let i = 0; i < sumDimensions.length; i++) {
+          let sum = sumDimensions[i];
+
+          if(weighDimension.dimension === i + 1 && sum < weighDimension.limit) {
+            allText.push(weighDimension.text);
+            showMessage = true;
+            break;
+          }
+        }
+      }
       
+      if(showMessage) {
+        this.openDialog(allText);
+      }
 
     }
     
   }
 
-  openDialog(text: string): void {
+  openDialog(text: string[]): void {
     this.dialog.open(WeighingMessageComponent, {
-      width: '250px',
+      width: '800px',
       data: text
     });
   }

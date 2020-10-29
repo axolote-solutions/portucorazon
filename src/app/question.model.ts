@@ -11,4 +11,5 @@ export interface Question {
     parent: boolean;
     childQuestion: Array<ChildQuestion>;
     display: boolean;
+    dimension: number;
 }
