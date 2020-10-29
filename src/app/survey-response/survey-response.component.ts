@@ -238,8 +238,8 @@ export class SurveyResponseComponent implements OnInit {
   saveSurvey() {
     let responses = JSON.stringify(this.surveyForm.value);
 
-    let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId ;
-    //let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId ;
+    let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId ;
+    
 
     const headers = { 'Content-Type': 'application/json' };
 
