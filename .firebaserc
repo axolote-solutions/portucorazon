@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "portucorazonweb": {
+      "hosting": {
+        "por-tu-corazon": [
+          "portucorazonweb"
+        ]
+      }
+    }
+  }
+}
