@@ -27,7 +27,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MyLoaderComponent } from './components/my-loader/my-loader.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptorService } from './interceptors/loader-interceptor.service';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ThanksComponent } from './thanks/thanks.component'
 
 
 
@@ -37,7 +38,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     SurveyComponent,
     SurveyResponseComponent,
     WeighingMessageComponent,
-    MyLoaderComponent
+    MyLoaderComponent,
+    ThanksComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Question } from '../question.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WeighingMessageComponent } from '../weighing-message/weighing-message.component';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class SurveyResponseComponent implements OnInit {
     private fb: FormBuilder,
     public httpClient: HttpClient,
     private activatedRoute: ActivatedRoute,
+    private route: Router,
     private dialog: MatDialog) {
 
     this.surveyForm = this.fb.group({
@@ -154,6 +156,7 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   onSubmit() {
+    document.documentElement.scrollTop = 0;
   }
 
 
@@ -255,10 +258,12 @@ export class SurveyResponseComponent implements OnInit {
     this.httpClient.post(url, responses, { 'headers': headers }).subscribe(
       (response) => {
         console.log(response);
+        this.route.navigate(['/thaks']);
       },
       (error) => {
         console.log(error);
-        location.reload();
+        this.route.navigate(['/thaks']);
+        //location.reload();
 
       }
     )
