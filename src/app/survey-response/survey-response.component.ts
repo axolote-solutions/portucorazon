@@ -156,11 +156,11 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   onSubmit() {
-    document.documentElement.scrollTop = 0;
   }
 
 
   selectionChange(event: any): void {
+    document.documentElement.scrollTop = 0;
     let selectedIndex = event.previouslySelectedIndex;
 
     let filledSection = this.survey.sections[selectedIndex];
@@ -170,8 +170,8 @@ export class SurveyResponseComponent implements OnInit {
       let value = this.sectionsResponses().at(selectedIndex).get("questionResponses").value;
 
       //TODO verifica como cambiar este arreglo para que sea dinámico, por el momento tiene 4 elementos por las 4 dimensiones que puede tener la encuesta.
-      let sumDimensions: number[] = [0, 0, 0, 0];
-      let countDimensions: number[] = [0, 0, 0, 0];
+      let sumDimensions: number[] = [0, 0, 0, 0, 0];
+      let countDimensions: number[] = [0, 0, 0, 0, 0];
 
       let totalPoints: number = 0;
       let index = 1;
@@ -194,6 +194,7 @@ export class SurveyResponseComponent implements OnInit {
       }
 
       if (filledSection.weighingAverage) {
+        console.log("calcula average")
         totalPoints = totalPoints / index;
 
         for (let i = 0; i < sumDimensions.length; i++) {
@@ -208,8 +209,8 @@ export class SurveyResponseComponent implements OnInit {
       var showMessage = false;
 
       for (let weigh of filledSection.weighingMessages) {
-        console.log("entro al if");
-
+        console.log("totalPoints: ", totalPoints);
+        console.log("limit: ", weigh.limit);
         if (totalPoints < weigh.limit) {
 
           allText.push(weigh.text);
@@ -233,11 +234,11 @@ export class SurveyResponseComponent implements OnInit {
       }
 
       if (showMessage) {
+        document.documentElement.scrollTop = 0;
         this.openDialog(allText);
       }
 
     }
-
   }
 
   openDialog(text: string[]): void {
@@ -258,12 +259,12 @@ export class SurveyResponseComponent implements OnInit {
     this.httpClient.post(url, responses, { 'headers': headers }).subscribe(
       (response) => {
         console.log(response);
-        this.route.navigate(['/thaks']);
+        location.reload();
       },
       (error) => {
         console.log(error);
-        this.route.navigate(['/thaks']);
-        //location.reload();
+        
+        location.reload();
 
       }
     )
