@@ -82,6 +82,7 @@ export class SurveyResponseComponent implements OnInit {
       for (let child of question.childQuestion) {
         let q = child.questionNumber - 1;
         this.survey.sections[sectionIndex].questions[q].display = false;
+        this.survey.sections[sectionIndex].questions[q].mandatory = false;
       }
 
     }
@@ -105,7 +106,7 @@ export class SurveyResponseComponent implements OnInit {
           if (question.mandatory) {
             responseText = new FormControl('', Validators.required);
           } else {
-            responseText = new FormControl('');
+            responseText = new FormControl();
           }
 
           group.addControl('responseText', responseText);
@@ -124,7 +125,7 @@ export class SurveyResponseComponent implements OnInit {
           if (question.mandatory) {
             responseText = new FormControl('', Validators.required);
           } else {
-            responseText = new FormControl('');
+            responseText = new FormControl();
           }
           group.addControl('responseText', responseText);
           break;
@@ -132,7 +133,7 @@ export class SurveyResponseComponent implements OnInit {
           if (question.mandatory) {
             responseText = new FormControl('', Validators.required);
           } else {
-            responseText = new FormControl('');
+            responseText = new FormControl();
           }
           group.addControl('responseText', responseText);
           break;
@@ -140,10 +141,11 @@ export class SurveyResponseComponent implements OnInit {
 
     } else {
       let responseOption: FormControl;
+      
       if (question.mandatory) {
         responseOption = new FormControl('', Validators.required);
       } else {
-        responseOption = new FormControl('');
+        responseOption = new FormControl();
       }
       group.addControl('responseOption', responseOption);
     }
@@ -161,13 +163,13 @@ export class SurveyResponseComponent implements OnInit {
 
   selectionChange(event: any): void {
     document.documentElement.scrollTop = 0;
+    
     let selectedIndex = event.previouslySelectedIndex;
 
     let filledSection = this.survey.sections[selectedIndex];
 
     if (filledSection.weighing) {
-
-      let value = this.sectionsResponses().at(selectedIndex).get("questionResponses").value;
+      let responsesValues = this.questionResponses(selectedIndex).value;
 
       //TODO verifica como cambiar este arreglo para que sea dinámico, por el momento tiene 4 elementos por las 4 dimensiones que puede tener la encuesta.
       let sumDimensions: number[] = [0, 0, 0, 0, 0];
@@ -175,18 +177,18 @@ export class SurveyResponseComponent implements OnInit {
 
       let totalPoints: number = 0;
       let index = 1;
-      for (let val of value) {
-        let questionPoints = val.responseOption.value;
 
-        console.log("filledSection: ", filledSection);
+      for (let responseValue of responsesValues) {
+        if(!responseValue.responseOption) {
+          continue;
+        }
+        let questionPoints = responseValue.responseOption.value;
 
         if (filledSection.multiDimensionWeighingMessages) {
-
           let questionDimension = filledSection.questions[index - 1].dimension;
-
+          
           sumDimensions[questionDimension - 1] = sumDimensions[questionDimension - 1] + questionPoints;
           countDimensions[questionDimension - 1] = countDimensions[questionDimension - 1] + 1;
-
         }
 
         totalPoints += questionPoints;
@@ -194,7 +196,6 @@ export class SurveyResponseComponent implements OnInit {
       }
 
       if (filledSection.weighingAverage) {
-        console.log("calcula average")
         totalPoints = totalPoints / index;
 
         for (let i = 0; i < sumDimensions.length; i++) {
@@ -209,8 +210,6 @@ export class SurveyResponseComponent implements OnInit {
       var showMessage = false;
 
       for (let weigh of filledSection.weighingMessages) {
-        console.log("totalPoints: ", totalPoints);
-        console.log("limit: ", weigh.limit);
         if (totalPoints < weigh.limit) {
 
           allText.push(weigh.text);
@@ -252,6 +251,8 @@ export class SurveyResponseComponent implements OnInit {
     let responses = JSON.stringify(this.surveyForm.value);
 
     let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
+    //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
+    
 
 
     const headers = { 'Content-Type': 'application/json' };

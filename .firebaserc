@@ -6,6 +6,17 @@
           "portucorazonweb"
         ]
       }
+    },
+    "portucorazon-test": {
+      "hosting": {
+        "por-tu-corazon": [
+          "portucorazon-test"
+        ]
+      }
     }
+  },
+  "projects": {
+    "dev": "portucorazon-test",
+    "prod": "portucorazonweb"
   }
 }
