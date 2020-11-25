@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Survey } from '../survey.model'
-import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Question } from '../question.model';
@@ -101,14 +101,9 @@ export class SurveyResponseComponent implements OnInit {
       let responseText: FormControl;
       switch (question.responseDataType) {
         case 'INTEGER':
-          var pattern = /^\d+$/;
-          //responseText = new FormControl('', [Validators.required, Validators.pattern(pattern)]);
-          if (question.mandatory) {
-            responseText = new FormControl('', Validators.required);
-          } else {
-            responseText = new FormControl();
-          }
-
+          let validatorIntegerList: ValidatorFn[] = this.prepareValidators(question);
+          
+          responseText = new FormControl('', validatorIntegerList);
           group.addControl('responseText', responseText);
           break;
         case 'EMAIL': //responseText = new FormControl('', [Validators.required, Validators.email]);
@@ -119,16 +114,15 @@ export class SurveyResponseComponent implements OnInit {
           }
           group.addControl('responseText', responseText);
           break;
+          
         case 'FLOAT':
-          var pattern = /^-?\d+\.?\d*$/
-          //responseText = new FormControl('', [Validators.required, Validators.pattern(pattern)]);
-          if (question.mandatory) {
-            responseText = new FormControl('', Validators.required);
-          } else {
-            responseText = new FormControl();
-          }
+          let validatorFloatList: ValidatorFn[] = this.prepareValidators(question);
+          
+          responseText = new FormControl('', validatorFloatList);
+          
           group.addControl('responseText', responseText);
           break;
+
         default: //responseText = new FormControl('', [Validators.required, Validators.email]);
           if (question.mandatory) {
             responseText = new FormControl('', Validators.required);
@@ -151,6 +145,21 @@ export class SurveyResponseComponent implements OnInit {
     }
 
     return group;
+  }
+
+  private prepareValidators(question: Question) {
+    let validatorList: ValidatorFn[];
+    //responseText = new FormControl('', [Validators.required, Validators.pattern(pattern)]);
+    if (question.mandatory) {
+      validatorList.push(Validators.required);
+    }
+    if (question.minValue) {
+      validatorList.push(Validators.min(question.minValue));
+    }
+    if (question.maxValue) {
+      validatorList.push(Validators.max(question.maxValue));
+    }
+    return validatorList;
   }
 
   addResponse(sectionIndex: number, question: Question, sectionName: string) {

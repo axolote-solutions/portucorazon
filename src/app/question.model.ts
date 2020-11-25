@@ -12,4 +12,6 @@ export interface Question {
     childQuestion: Array<ChildQuestion>;
     display: boolean;
     dimension: number;
+    maxValue: number;
+    minValue: number;
 }
