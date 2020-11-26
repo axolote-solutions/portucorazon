@@ -148,16 +148,16 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   private prepareValidators(question: Question) {
-    let validatorList: ValidatorFn[];
+    let validatorList: ValidatorFn[] = [];
     //responseText = new FormControl('', [Validators.required, Validators.pattern(pattern)]);
     if (question.mandatory) {
       validatorList.push(Validators.required);
     }
-    if (question.minValue) {
-      validatorList.push(Validators.min(question.minValue));
+    if (question.openQuestionConfig.minValue) {
+      validatorList.push(Validators.min(question.openQuestionConfig.minValue));
     }
-    if (question.maxValue) {
-      validatorList.push(Validators.max(question.maxValue));
+    if (question.openQuestionConfig.maxValue) {
+      validatorList.push(Validators.max(question.openQuestionConfig.maxValue));
     }
     return validatorList;
   }
@@ -180,7 +180,6 @@ export class SurveyResponseComponent implements OnInit {
     if (filledSection.weighing) {
       let responsesValues = this.questionResponses(selectedIndex).value;
 
-      //TODO verifica como cambiar este arreglo para que sea dinámico, por el momento tiene 4 elementos por las 4 dimensiones que puede tener la encuesta.
       let sumDimensions: number[] = [0, 0, 0, 0, 0];
       let countDimensions: number[] = [0, 0, 0, 0, 0];
 
@@ -259,7 +258,8 @@ export class SurveyResponseComponent implements OnInit {
   saveSurvey() {
     let responses = JSON.stringify(this.surveyForm.value);
 
-    let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
+    //let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
+    let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId;
     //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
     
 

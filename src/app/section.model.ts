@@ -14,4 +14,5 @@ export interface Section {
     questions: Array<Question>
     weighingMessages: Array<WeighingMessages>
     multiDimensionWeighingMessages: Array<MultiDimensionWeighingMessages>
+    footerMessage: string;
 }

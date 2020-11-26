@@ -1,5 +1,6 @@
 import { QuestionOptions } from "./question-options.model";
 import { ChildQuestion } from "./child-question.model";
+import { OpenQuestionConfig } from "./open-question-config"
 
 export interface Question {
     questionNumber: number;
@@ -12,6 +13,5 @@ export interface Question {
     childQuestion: Array<ChildQuestion>;
     display: boolean;
     dimension: number;
-    maxValue: number;
-    minValue: number;
+    openQuestionConfig: OpenQuestionConfig;
 }

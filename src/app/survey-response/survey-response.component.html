@@ -24,11 +24,18 @@
                                         <div class="question-header">
                                             <label>{{survey.sections[s].questions[q].questionText}}</label>
                                         </div>
-                                        <div class="pl-3">
-                                            <mat-form-field fxFlex="30">
+                                        <div *ngIf="survey.sections[s].questions[q].openQuestionConfig.questionLength === 'SMALL'; else elseBlock" class="pl-3">
+                                            <mat-form-field fxFlex="30" size= 8px>
                                                 <input matInput formControlName="responseText">
                                             </mat-form-field>
                                         </div>
+                                        <ng-template #elseBlock>
+                                            <div class="pl-3">
+                                                <mat-form-field fxFlex="30" size= 20px>
+                                                    <input matInput formControlName="responseText">
+                                                </mat-form-field>
+                                            </div>
+                                        </ng-template>
                                         <div *ngIf="questionResponse.get('responseText').invalid && (
                                                         questionResponse.get('responseText').dirty || questionResponse.get('responseText').touched)"
                                             class="alert alert-danger pl-3">
@@ -39,10 +46,10 @@
                                                 Introduzca un email válido.
                                             </div>
                                             <div *ngIf="questionResponse.get('responseText').errors.min">
-                                                Minimum required number is {{survey.sections[s].questions[q].minValue}}.
+                                                Los valores mínimo/máximo son {{survey.sections[s].questions[q].openQuestionConfig.minValue}}/{{survey.sections[s].questions[q].openQuestionConfig.maxValue}}.
                                             </div>
                                             <div *ngIf="questionResponse.get('responseText').errors.max">
-                                                Minimum required number is {{survey.sections[s].questions[q].maxValue}}.
+                                                Los valores mínimo/máximo son {{survey.sections[s].questions[q].openQuestionConfig.minValue}}/{{survey.sections[s].questions[q].openQuestionConfig.maxValue}}.
                                             </div> 
                                         </div>
                                     </div>
@@ -101,17 +108,15 @@
 
                     <div class="btns">
 
-
                         <div class="container">
-                            <p style="padding-top:20px;">
-                                Las respuestas emocionales durante la pandemia y el confinamiento son muy frecuentes, y
-                                algunas pueden ser normales; sin embargo, la puntuación positiva de este cuestionario no
-                                reemplaza el juicio de un profesional de la salud.
-                                Acuda a su médico
-                            </p>
+                            <div *ngIf="survey.sections[s].footerMessage">
+                                <p style="padding-top:20px;">
+                                    {{survey.sections[s].footerMessage}}
+                                </p>
+                            </div>
                         </div>
                         <div style="padding-top:20px;">
-                            <button type="submit" class="boton boton-info" mat-button matStepperNext
+                            <button type="submit" class="boton boton-info" mat-raised-button matStepperNext
                                 [disabled]="!sectionResponse.valid">
                                 <span class="material-icons prefix">
                                     arrow_forward
