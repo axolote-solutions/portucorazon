@@ -7,6 +7,7 @@ import { Question } from '../question.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WeighingMessageComponent } from '../weighing-message/weighing-message.component';
 import {Router} from '@angular/router';
+import { Section } from '../section.model';
 
 
 @Component({
@@ -35,6 +36,8 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log(this.survey);
 
     this.surveyConfigurationId = this.activatedRoute.snapshot.params.surveyConfigurationId;
     this.companySurveyId = this.activatedRoute.snapshot.params.companySurveyId;
@@ -153,12 +156,15 @@ export class SurveyResponseComponent implements OnInit {
     if (question.mandatory) {
       validatorList.push(Validators.required);
     }
-    if (question.openQuestionConfig.minValue) {
-      validatorList.push(Validators.min(question.openQuestionConfig.minValue));
+    if (question.openQuestionConfig) {
+      if (question.openQuestionConfig.minValue) {
+        validatorList.push(Validators.min(question.openQuestionConfig.minValue));
+      }
+      if (question.openQuestionConfig.maxValue) {
+        validatorList.push(Validators.max(question.openQuestionConfig.maxValue));
+      }
     }
-    if (question.openQuestionConfig.maxValue) {
-      validatorList.push(Validators.max(question.openQuestionConfig.maxValue));
-    }
+    
     return validatorList;
   }
 
@@ -258,8 +264,8 @@ export class SurveyResponseComponent implements OnInit {
   saveSurvey() {
     let responses = JSON.stringify(this.surveyForm.value);
 
-    //let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
-    let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId;
+    let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
+    //let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId;
     //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
     
 
@@ -281,7 +287,6 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   radioChange(event: any, section: number, question: number) {
-
     if (this.survey.sections[section].questions[question].parent) {
       for (let childQuestion of this.survey.sections[section].questions[question].childQuestion) {
         if (event.value.value === childQuestion.responseValue) {
@@ -295,11 +300,11 @@ export class SurveyResponseComponent implements OnInit {
     }
   }
 
-  // private calculateWeigh(filledSection: Section) {
-  //   console.log("calculateWeigh");
+  private calculateWeigh(filledSection: Section, sectionIndex: number) {
+    console.log("calculateWeigh");
 
 
-  // }
+  }
 
 
 }

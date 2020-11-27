@@ -24,7 +24,7 @@
                                         <div class="question-header">
                                             <label>{{survey.sections[s].questions[q].questionText}}</label>
                                         </div>
-                                        <div *ngIf="survey.sections[s].questions[q].openQuestionConfig.questionLength === 'SMALL'; else elseBlock" class="pl-3">
+                                        <div *ngIf="survey.sections[s].questions[q].openQuestionConfig && survey.sections[s].questions[q].openQuestionConfig.questionLength === 'SMALL'; else elseBlock" class="pl-3">
                                             <mat-form-field fxFlex="30" size= 20px >
                                                 <input matInput #input maxlength="8" formControlName="responseText">
                                             </mat-form-field>
