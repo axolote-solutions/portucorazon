@@ -295,5 +295,11 @@ export class SurveyResponseComponent implements OnInit {
     }
   }
 
+  // private calculateWeigh(filledSection: Section) {
+  //   console.log("calculateWeigh");
+
+
+  // }
+
 
 }

@@ -25,8 +25,8 @@
                                             <label>{{survey.sections[s].questions[q].questionText}}</label>
                                         </div>
                                         <div *ngIf="survey.sections[s].questions[q].openQuestionConfig.questionLength === 'SMALL'; else elseBlock" class="pl-3">
-                                            <mat-form-field fxFlex="30" size= 8px>
-                                                <input matInput formControlName="responseText">
+                                            <mat-form-field fxFlex="30" size= 20px >
+                                                <input matInput #input maxlength="8" formControlName="responseText">
                                             </mat-form-field>
                                         </div>
                                         <ng-template #elseBlock>
