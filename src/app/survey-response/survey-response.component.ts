@@ -37,8 +37,6 @@ export class SurveyResponseComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.survey);
-
     this.surveyConfigurationId = this.activatedRoute.snapshot.params.surveyConfigurationId;
     this.companySurveyId = this.activatedRoute.snapshot.params.companySurveyId;
 
