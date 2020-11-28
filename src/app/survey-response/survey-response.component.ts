@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Question } from '../question.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WeighingMessageComponent } from '../weighing-message/weighing-message.component';
-import {Router} from '@angular/router';
 import { Section } from '../section.model';
 
 
@@ -22,12 +21,13 @@ export class SurveyResponseComponent implements OnInit {
   surveyConfigurationId = "";
   companySurveyId = "";
   //console = console;
+  submitted = false;
+  sectionChanged = false;
 
   constructor(
     private fb: FormBuilder,
     public httpClient: HttpClient,
     private activatedRoute: ActivatedRoute,
-    private route: Router,
     private dialog: MatDialog) {
 
     this.surveyForm = this.fb.group({
@@ -150,7 +150,6 @@ export class SurveyResponseComponent implements OnInit {
 
   private prepareValidators(question: Question) {
     let validatorList: ValidatorFn[] = [];
-    //responseText = new FormControl('', [Validators.required, Validators.pattern(pattern)]);
     if (question.mandatory) {
       validatorList.push(Validators.required);
     }
@@ -171,10 +170,17 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.sectionChanged) {
+      this.submitted = false;
+      this.sectionChanged = false;
+    } else {
+      this.submitted = true;
+    }
   }
 
 
   selectionChange(event: any): void {
+    this.sectionChanged = true;
     document.documentElement.scrollTop = 0;
     
     let selectedIndex = event.previouslySelectedIndex;

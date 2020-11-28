@@ -2,10 +2,10 @@
     <section class="page-section ">
         <div class="container">
             
-            <mat-horizontal-stepper labelPosition="bottom" formArrayName="sectionsResponses"
+            <mat-horizontal-stepper [linear]="true" #stepper labelPosition="bottom" formArrayName="sectionsResponses"
                 (selectionChange)="selectionChange($event)">
-                <mat-step *ngFor="let sectionResponse of sectionsResponses().controls; let s = index"
-                    [formGroupName]="s" [completed]="survey.sections[s].enabled" [editable]="!sectionResponse.valid">
+                <mat-step *ngFor="let sectionResponse of sectionsResponses().controls; let s = index" [stepControl]="sectionResponse"
+                    [formGroupName]="s">
                     <ng-template matStepLabel>{{survey.sections[s].name}}</ng-template>
 
                     <div class="personal" formArrayName="questionResponses" style="border-color: black;">
@@ -24,20 +24,24 @@
                                         <div class="question-header">
                                             <label>{{survey.sections[s].questions[q].questionText}}</label>
                                         </div>
-                                        <div *ngIf="survey.sections[s].questions[q].openQuestionConfig && survey.sections[s].questions[q].openQuestionConfig.questionLength === 'SMALL'; else elseBlock" class="pl-3">
-                                            <mat-form-field fxFlex="30" size= 20px >
+                                        <div *ngIf="survey.sections[s].questions[q].openQuestionConfig && 
+                                                survey.sections[s].questions[q].openQuestionConfig.questionLength === 'SMALL'; 
+                                                    else elseBlock" class="pl-3">
+                                            <mat-form-field fxFlex="30" appearance="outline">
+                                                <mat-label>{{survey.sections[s].questions[q].questionText}}</mat-label>
                                                 <input matInput #input maxlength="8" formControlName="responseText">
                                             </mat-form-field>
                                         </div>
                                         <ng-template #elseBlock>
                                             <div class="pl-3">
-                                                <mat-form-field fxFlex="30" size= 20px>
+                                                <mat-form-field fxFlex="30" appearance="standard">
+                                                    <mat-label>{{survey.sections[s].questions[q].questionText}}</mat-label>
                                                     <input matInput formControlName="responseText">
                                                 </mat-form-field>
                                             </div>
                                         </ng-template>
                                         <div *ngIf="questionResponse.get('responseText').invalid && (
-                                                        questionResponse.get('responseText').dirty || questionResponse.get('responseText').touched)"
+                                            questionResponse.get('responseText').touched || questionResponse.get('responseText').dirty || submitted )"
                                             class="alert alert-danger pl-3">
                                             <div *ngIf="questionResponse.get('responseText').errors.required">
                                                 Este campo es obligatorio.
@@ -70,7 +74,7 @@
                                             </mat-form-field>
                                         </div>
                                         <div *ngIf="questionResponse.get('responseOption').invalid && (
-                                                        questionResponse.get('responseOption').dirty || questionResponse.get('responseOption').touched)"
+                                            questionResponse.get('responseOption').touched || submitted )"
                                             class="alert alert-danger pl-3">
                                             <div *ngIf="questionResponse.get('responseOption').errors.required">
                                                 Este campo es obligatorio
@@ -94,8 +98,8 @@
                                             </mat-radio-group>
                                         </div>
                                         <div *ngIf="questionResponse.get('responseOption').invalid && (
-                                                        questionResponse.get('responseOption').dirty || questionResponse.get('responseOption').touched)"
-                                            class="alert alert-danger pl-3">
+                                                questionResponse.get('responseOption').touched || submitted)"
+                                    class="alert alert-danger pl-3">
                                             <div *ngIf="questionResponse.get('responseOption').errors.required">
                                                 Este campo es obligatorio
                                             </div>
@@ -116,8 +120,7 @@
                             </div>
                         </div>
                         <div style="padding-top:20px;">
-                            <button type="submit" class="boton boton-info" mat-raised-button matStepperNext
-                                [disabled]="!sectionResponse.valid">
+                            <button type="submit" class="boton boton-info" mat-button matStepperNext>
                                 <span class="material-icons prefix">
                                     arrow_forward
                                 </span>
