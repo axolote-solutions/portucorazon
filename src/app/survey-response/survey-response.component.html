@@ -1,11 +1,11 @@
 <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
     <section class="page-section ">
         <div class="container">
-            
+
             <mat-horizontal-stepper [linear]="true" #stepper labelPosition="bottom" formArrayName="sectionsResponses"
                 (selectionChange)="selectionChange($event)">
-                <mat-step *ngFor="let sectionResponse of sectionsResponses().controls; let s = index" [stepControl]="sectionResponse"
-                    [formGroupName]="s">
+                <mat-step *ngFor="let sectionResponse of sectionsResponses().controls; let s = index"
+                    [stepControl]="sectionResponse" [formGroupName]="s" [editable]="!sectionResponse.valid">
                     <ng-template matStepLabel>{{survey.sections[s].name}}</ng-template>
 
                     <div class="personal" formArrayName="questionResponses" style="border-color: black;">
@@ -35,7 +35,8 @@
                                         <ng-template #elseBlock>
                                             <div class="pl-3">
                                                 <mat-form-field fxFlex="30" appearance="standard">
-                                                    <mat-label>{{survey.sections[s].questions[q].questionText}}</mat-label>
+                                                    <mat-label>{{survey.sections[s].questions[q].questionText}}
+                                                    </mat-label>
                                                     <input matInput formControlName="responseText">
                                                 </mat-form-field>
                                             </div>
@@ -50,11 +51,13 @@
                                                 Introduzca un email válido.
                                             </div>
                                             <div *ngIf="questionResponse.get('responseText').errors.min">
-                                                Los valores mínimo/máximo son {{survey.sections[s].questions[q].openQuestionConfig.minValue}}/{{survey.sections[s].questions[q].openQuestionConfig.maxValue}}.
+                                                Los valores mínimo/máximo son
+                                                {{survey.sections[s].questions[q].openQuestionConfig.minValue}}/{{survey.sections[s].questions[q].openQuestionConfig.maxValue}}.
                                             </div>
                                             <div *ngIf="questionResponse.get('responseText').errors.max">
-                                                Los valores mínimo/máximo son {{survey.sections[s].questions[q].openQuestionConfig.minValue}}/{{survey.sections[s].questions[q].openQuestionConfig.maxValue}}.
-                                            </div> 
+                                                Los valores mínimo/máximo son
+                                                {{survey.sections[s].questions[q].openQuestionConfig.minValue}}/{{survey.sections[s].questions[q].openQuestionConfig.maxValue}}.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +102,7 @@
                                         </div>
                                         <div *ngIf="questionResponse.get('responseOption').invalid && (
                                                 questionResponse.get('responseOption').touched || submitted)"
-                                    class="alert alert-danger pl-3">
+                                            class="alert alert-danger pl-3">
                                             <div *ngIf="questionResponse.get('responseOption').errors.required">
                                                 Este campo es obligatorio
                                             </div>
@@ -107,6 +110,12 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="sectionResponse.invalid && submitted" class="alert alert-danger pl-3">
+                        <div>
+                            Aún quedan preguntas sin responder.
                         </div>
                     </div>
 
@@ -128,6 +137,7 @@
                         </div>
 
                     </div>
+
                 </mat-step>
                 <mat-step [completed]=true>
                     <ng-template matStepLabel>Finalizar</ng-template>
