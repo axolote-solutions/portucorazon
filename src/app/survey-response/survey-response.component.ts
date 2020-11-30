@@ -153,6 +153,10 @@ export class SurveyResponseComponent implements OnInit {
     if (question.mandatory) {
       validatorList.push(Validators.required);
     }
+    if (question.responseDataType==='INTEGER')
+    {
+      validatorList.push(Validators.pattern("^[0-9]*$"));
+    }
     if (question.openQuestionConfig) {
       if (question.openQuestionConfig.minValue) {
         validatorList.push(Validators.min(question.openQuestionConfig.minValue));
