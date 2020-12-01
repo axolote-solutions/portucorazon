@@ -30,7 +30,7 @@ body {
   //background-color: $bgcolor;
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   font-size: 42px;
-  padding-top: 110x;
+  padding-top: 200x;
   padding-bottom: 80px;
 }
 
@@ -185,6 +185,15 @@ color: $text_white;
   justify-content: center;
   width: 125px;
   height: 95px;
+  margin:auto;
+}
+
+.logo-long {
+  text-align:center; /*pictures are afected by text propieties*/
+  display: flex;
+  justify-content: center;
+  width: 450px;
+  height: 105px;
   margin:auto;
 }
 
