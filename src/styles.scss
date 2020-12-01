@@ -26,6 +26,14 @@ body {
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 
+.survey-end {
+  //background-color: $bgcolor;
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  font-size: 42px;
+  padding-top: 110x;
+  padding-bottom: 80px;
+}
+
 .page-section {
   padding: 3rem 0;
 }
@@ -175,7 +183,7 @@ color: $text_white;
   text-align:center; /*pictures are afected by text propieties*/
   display: flex;
   justify-content: center;
-  width: 95px;
+  width: 125px;
   height: 95px;
   margin:auto;
 }
