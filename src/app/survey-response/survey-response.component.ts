@@ -157,12 +157,18 @@ export class SurveyResponseComponent implements OnInit {
     {
       validatorList.push(Validators.pattern("^[0-9]*$"));
     }
+    if (question.responseDataType === 'FLOAT') {
+      validatorList.push(Validators.pattern("^[0-9]+(.[0-9]{0,2})?$"));
+    }
     if (question.openQuestionConfig) {
       if (question.openQuestionConfig.minValue) {
         validatorList.push(Validators.min(question.openQuestionConfig.minValue));
       }
       if (question.openQuestionConfig.maxValue) {
         validatorList.push(Validators.max(question.openQuestionConfig.maxValue));
+      }
+      if (question.openQuestionConfig.maxLength) {
+        validatorList.push(Validators.maxLength(question.openQuestionConfig.maxLength));
       }
     }
     
