@@ -4,9 +4,10 @@ import { FormGroup, Validators, FormBuilder, FormArray, FormControl, ValidatorFn
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Question } from '../question.model';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { WeighingMessageComponent } from '../weighing-message/weighing-message.component';
 import { Section } from '../section.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class SurveyResponseComponent implements OnInit {
     private fb: FormBuilder,
     public httpClient: HttpClient,
     private activatedRoute: ActivatedRoute,
+    private sanitizer: DomSanitizer,
     private dialog: MatDialog) {
 
     this.surveyForm = this.fb.group({
@@ -52,6 +54,10 @@ export class SurveyResponseComponent implements OnInit {
 
           this.addResponse(i, question, section.name);
         }
+      }
+
+      if(section.footerMessage) {
+        section.footerMessage = this.replaceMarkText(section.footerMessage);
       }
       i++;
     }
@@ -240,7 +246,7 @@ export class SurveyResponseComponent implements OnInit {
       for (let weigh of filledSection.weighingMessages) {
         if (totalPoints < weigh.limit) {
 
-          allText.push(weigh.text);
+          allText.push(this.replaceMarkText(weigh.text));
           showMessage = true;
           break;
         }
@@ -252,7 +258,7 @@ export class SurveyResponseComponent implements OnInit {
             let sum = sumDimensions[i];
 
             if (weighDimension.dimension === i + 1 && sum < weighDimension.limit) {
-              allText.push(weighDimension.text);
+              allText.push(this.replaceMarkText(weighDimension.text));
               showMessage = true;
               break;
             }
@@ -262,17 +268,24 @@ export class SurveyResponseComponent implements OnInit {
 
       if (showMessage) {
         document.documentElement.scrollTop = 0;
-        this.openDialog(allText);
+        this.openDialog(allText, filledSection.title);
       }
 
     }
   }
 
-  openDialog(text: string[]): void {
-    this.dialog.open(WeighingMessageComponent, {
-      width: '800px',
-      data: text
-    });
+  openDialog(text: string[], head: string): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '800px';
+
+    dialogConfig.data = {
+      text: text,
+      header: head
+    }
+
+    this.dialog.open(WeighingMessageComponent, dialogConfig);
   }
 
   saveSurvey() {
@@ -318,6 +331,17 @@ export class SurveyResponseComponent implements OnInit {
     console.log("calculateWeigh");
 
 
+  }
+
+  replaceMarkText(text: string ): string {
+    console.log("replaceMarkText");
+    text = text.replace(/%%/g, '<br>');
+
+    text = text.replace(/##/g, '<b>');
+
+    text = text.replace(/#-#/g, '</b>');
+
+    return text;
   }
 
 

@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, Injectable } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-weighing-message',
@@ -10,7 +10,7 @@ export class WeighingMessageComponent implements OnInit {
 
   constructor(
     public weighingDialog: MatDialogRef<WeighingMessageComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string[]) {
+    @Inject(MAT_DIALOG_DATA) public data) {
 
   }
 
@@ -32,5 +32,4 @@ export class WeighingMessageComponent implements OnInit {
 
     return message.substring(i +1);
   }
-
 }

@@ -126,9 +126,7 @@
 
                         <div class="container">
                             <div *ngIf="survey.sections[s].footerMessage">
-                                <p style="padding-top:20px;">
-                                    {{survey.sections[s].footerMessage}}
-                                </p>
+                                <div class="pt-4" [innerHtml]="survey.sections[s].footerMessage | safe: 'html'"></div>
                             </div>
                         </div>
                         <div style="padding-top:20px;">

@@ -28,7 +28,8 @@ import { MyLoaderComponent } from './components/my-loader/my-loader.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptorService } from './interceptors/loader-interceptor.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ThanksComponent } from './thanks/thanks.component'
+import { ThanksComponent } from './thanks/thanks.component';
+import { SafePipe } from './pipe/safe.pipe'
 
 
 
@@ -39,7 +40,8 @@ import { ThanksComponent } from './thanks/thanks.component'
     SurveyResponseComponent,
     WeighingMessageComponent,
     MyLoaderComponent,
-    ThanksComponent
+    ThanksComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

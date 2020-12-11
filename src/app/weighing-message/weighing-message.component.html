@@ -1,20 +1,13 @@
-<h1  mat-dialog-title>Resultado de la encuesta </h1>
+<h2  mat-dialog-title>Resultado de la encuesta {{data.header}} </h2>
 
-<mat-dialog-content>
-    <div class="control-group-title"> {{messageTitle(data[0])}} </div>
-    <div class="pt-1"> {{messageText(data[0])}} </div>
-    <div class="control-group-title"> {{messageTitle(data[1])}} </div>
-    <div class="pt-1"> {{messageText(data[1])}} </div>
-    <div class="control-group-title"> {{messageTitle(data[2])}} </div>
-    <div class="pt-1"> {{messageText(data[2])}} </div>
-    <div class="control-group-title"> {{messageTitle(data[3])}} </div>
-    <div class="pt-1"> {{messageText(data[3])}} </div>
-    <div class="control-group-title"> {{messageTitle(data[4])}} </div>
-    <div class="pt-1"> {{messageText(data[4])}} </div>
+<mat-dialog-content *ngFor="let message of data.text">
+    <div class="pt-4" [innerHtml]="data.text[0] | safe: 'html'"></div>
 </mat-dialog-content>
 
     
 
-<mat-dialog-actions class="pt-4"> 
-    <button class="pl-3 boton boton-info"  mat-raised-button (click)="closeMe()">Aceptar</button>
+<mat-dialog-actions> 
+    <div class="pt-5">
+        <button class="pl-3 boton boton-info"  mat-raised-button (click)="closeMe()">Aceptar</button>
+    </div>
 </mat-dialog-actions>
