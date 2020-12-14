@@ -334,7 +334,6 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   replaceMarkText(text: string ): string {
-    console.log("replaceMarkText");
     text = text.replace(/%%/g, '<br>');
 
     text = text.replace(/##/g, '<b>');
