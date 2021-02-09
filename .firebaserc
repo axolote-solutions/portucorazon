@@ -13,6 +13,20 @@
           "portucorazon-test"
         ]
       }
+    },
+    "cric-6c2e7": {
+      "hosting": {
+        "cuidando-tu-salud-online": [
+          "cuidando-tu-salud-online"
+        ]
+      }
+    },
+    "cuidando-tu-salud-online": {
+      "hosting": {
+        "por-tu-corazon": [
+          "cuidando-tu-salud-online"
+        ]
+      }
     }
   },
   "projects": {
