@@ -10,7 +10,15 @@
     "portucorazon-test": {
       "hosting": {
         "por-tu-corazon": [
+          "cric-pnce",
           "portucorazon-test"
+        ]
+      }
+    },
+    "cric-pnce": {
+      "hosting": {
+        "por-tu-corazon": [
+          "cric-pnce"
         ]
       }
     }
