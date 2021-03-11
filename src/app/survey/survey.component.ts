@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CompanySurveyService } from '../company-survey.service';
-import { Survey } from '../survey.model'
-import { NgForm } from '@angular/forms';
+import { Survey } from '../survey.model';
 
 
 @Component({
@@ -28,6 +27,7 @@ export class SurveyComponent implements OnInit {
     this.companySurveyService.getCompanySurvey(surveyConfigurationId, companySurveyId).subscribe(
       data=> {
         this.survey = data;
+        console.log("aqui estoy");
       }, error => {
         console.log(error);
       }
