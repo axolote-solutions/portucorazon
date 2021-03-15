@@ -27,7 +27,7 @@ export class SurveyComponent implements OnInit {
     this.companySurveyService.getCompanySurvey(surveyConfigurationId, companySurveyId).subscribe(
       data=> {
         this.survey = data;
-        console.log("aqui estoy");
+        this.survey.description = this.replaceMarkText(this.survey.description);
       }, error => {
         console.log(error);
       }
@@ -39,5 +39,16 @@ export class SurveyComponent implements OnInit {
 
 
   }
+
+  replaceMarkText(text: string ): string {
+    text = text.replace(/%%/g, '<br>');
+
+    text = text.replace(/##/g, '<b>');
+
+    text = text.replace(/#-#/g, '</b>');
+
+    return text;
+  }
+
 
 }
