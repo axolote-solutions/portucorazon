@@ -56,8 +56,11 @@ export class SurveyResponseComponent implements OnInit {
         }
       }
 
-      if(section.footerMessage) {
-        section.footerMessage = this.replaceMarkText(section.footerMessage);
+      if(section.footerInstructions) {
+        section.footerInstructions = this.replaceMarkText(section.footerInstructions);
+      }
+      if(section.headerInstructions) {
+        section.headerInstructions = this.replaceMarkText(section.headerInstructions);
       }
       i++;
     }
@@ -203,7 +206,7 @@ export class SurveyResponseComponent implements OnInit {
 
     let filledSection = this.survey.sections[selectedIndex];
 
-    if (filledSection.weighing) {
+    if (filledSection.weighingConfiguration) {
       let responsesValues = this.questionResponses(selectedIndex).value;
 
       let sumDimensions: number[] = [0, 0, 0, 0, 0];
@@ -218,7 +221,7 @@ export class SurveyResponseComponent implements OnInit {
         }
         let questionPoints = responseValue.responseOption.value;
 
-        if (filledSection.multiDimensionWeighingMessages) {
+        if (filledSection.weighingConfiguration.multiDimensionWeighingMessages) {
           let questionDimension = filledSection.questions[index - 1].dimension;
           
           sumDimensions[questionDimension - 1] = sumDimensions[questionDimension - 1] + questionPoints;
@@ -229,7 +232,7 @@ export class SurveyResponseComponent implements OnInit {
         index++;
       }
 
-      if (filledSection.weighingAverage) {
+      if (filledSection.weighingConfiguration.weighingAverage) {
         totalPoints = totalPoints / index;
 
         for (let i = 0; i < sumDimensions.length; i++) {
@@ -243,7 +246,7 @@ export class SurveyResponseComponent implements OnInit {
 
       var showMessage = false;
 
-      for (let weigh of filledSection.weighingMessages) {
+      for (let weigh of filledSection.weighingConfiguration.weighingMessages) {
         if (totalPoints < weigh.limit) {
 
           allText.push(this.replaceMarkText(weigh.text));
@@ -252,8 +255,8 @@ export class SurveyResponseComponent implements OnInit {
         }
       }
 
-      if (filledSection.multiDimensionWeighingMessages) {
-        for (var weighDimension of filledSection.multiDimensionWeighingMessages) {
+      if (filledSection.weighingConfiguration.multiDimensionWeighingMessages) {
+        for (var weighDimension of filledSection.weighingConfiguration.multiDimensionWeighingMessages) {
           for (let i = 0; i < sumDimensions.length; i++) {
             let sum = sumDimensions[i];
 
@@ -291,9 +294,9 @@ export class SurveyResponseComponent implements OnInit {
   saveSurvey() {
     let responses = JSON.stringify(this.surveyForm.value);
 
-    let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
-    //let url = "http://localhost:8080/api/v1/survey/response/" + this.surveyConfigurationId;
-    //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
+    //let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
+    //let url = "http://localhost:8080/api/v2/survey/response/" + this.surveyConfigurationId;
+    let url = "https://portucorazon-survey.uc.r.appspot.com/api/v2/survey/response/" + this.surveyConfigurationId;
     
 
 

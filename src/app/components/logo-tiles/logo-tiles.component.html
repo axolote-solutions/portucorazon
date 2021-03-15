@@ -1,0 +1,9 @@
+<mat-grid-list cols="3" rowHeight="250px">
+    <mat-grid-tile
+        *ngFor="let logo of tiles"
+        [colspan]="logo.cols"
+        [rowspan]="logo.rows"
+        >
+        <img src='{{logo.fileName}}'/>
+    </mat-grid-tile>
+  </mat-grid-list>

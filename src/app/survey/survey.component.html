@@ -1,9 +1,9 @@
-<header class="home-header">
+<header [style.background-color]= survey.surveyColor>
     <div class="container">
         <div class="row">
             
             <div class="col">
-                <div class="title-heading">{{survey.surveyName}}</div>
+                <div class="title-heading">{{survey.surveyTitle}}</div>
                 <br>
             </div>
             
@@ -18,6 +18,7 @@
             <div class="disclaimer">
                 
                     <p align="justify">
+                        {{survey.description}}
                         La información que nos proporcione será confidencial, con el propósito
                          de analizar patrones grupales, y no de carácter personal. <br>
 
@@ -61,14 +62,13 @@
 
         </div>
 
+        <div class="pt-5">
+            <app-logo-tiles [logoList]= survey.surveyLogos></app-logo-tiles>
+        </div>
         
     
     </div>
-    <br>
-    <br>
-        <div class="logo"> 
-            <img class="img" src="./assets/img/logoLarbas.jpg"hspace="20"/>
-        </div>
+    
         <pre>{{ survey | json }}</pre> 
 
 

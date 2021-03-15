@@ -5,10 +5,12 @@ export interface Survey {
     id: Surveykey;
     companyId: number;
     companyName: string;
-    surveyDescription: string;
-    surveyConfigurationId: number;
-    surveyId: number;
     surveyName: string;
+    surveyTitle: string;
+    active: boolean;
+    description: string;
+    surveyLogos: Array<string>;
+    surveyColor: string;
     sections: Array<Section>
 }
 
