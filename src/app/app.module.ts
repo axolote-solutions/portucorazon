@@ -29,7 +29,8 @@ import { LoaderService } from './services/loader.service';
 import { LoaderInterceptorService } from './interceptors/loader-interceptor.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ThanksComponent } from './thanks/thanks.component';
-import { SafePipe } from './pipe/safe.pipe'
+import { SafePipe } from './pipe/safe.pipe';
+import { LogoTilesComponent } from './components/logo-tiles/logo-tiles.component';
 
 
 
@@ -41,7 +42,8 @@ import { SafePipe } from './pipe/safe.pipe'
     WeighingMessageComponent,
     MyLoaderComponent,
     ThanksComponent,
-    SafePipe
+    SafePipe,
+    LogoTilesComponent
   ],
   imports: [
     BrowserModule,

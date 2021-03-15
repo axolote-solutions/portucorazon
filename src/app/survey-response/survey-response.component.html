@@ -11,8 +11,12 @@
                     <div class="personal" formArrayName="questionResponses" style="border-color: black;">
 
                         <blockquote class="blockquote text-center">
-                            <p class="pb-5 pt-3">{{survey.sections[s].title}}</p>
+                            <p [style.background-color]= survey.sections[s].sectionColor class="pb-5 pt-3">{{survey.sections[s].title}}</p>
                         </blockquote>
+
+                        <div class="pb-5">
+                            {{survey.sections[s].headerInstructions}}
+                        </div>
 
                         <div *ngFor="let questionResponse of questionResponses(s).controls; let q = index"
                             [formGroupName]="q" class="section">
@@ -122,6 +126,10 @@
                         </div>
                     </div>
 
+                    <div class="pt-5">
+                        {{survey.sections[s].footerInstructions}}
+                    </div>
+
                     <div class="btns">
 
                         <div class="container">
@@ -166,10 +174,10 @@
             </mat-horizontal-stepper>
 
         </div>
-        <br><br>
-           <div class="logo"> 
-              <img class="img" src="./assets/img/logoLarbas.jpg"hspace="20"/>
-          </div>
+
+        <div class="container pt-5">
+            <app-logo-tiles [logoList]= survey.surveyLogos></app-logo-tiles>
+        </div>
     </section>
 </form>
 
