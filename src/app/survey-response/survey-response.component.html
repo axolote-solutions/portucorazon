@@ -148,7 +148,7 @@
                         <div class="survey-end">¡Gracias por sus respuestas!</div>
                     </div>
                     <div class="pt-5">
-                        <div class="pt-4" [innerHtml]="survey.suggestions | safe: 'html'"></div>
+                        <div class="pt-4" [innerHtml]="survey.conclusions | safe: 'html'"></div>
                     </div>
                     
                     <div class="pt-5">
@@ -166,4 +166,4 @@
     </section>
 </form>
 
-<pre>{{ surveyForm.value | json }}</pre> 
+<!-- <pre>{{ surveyForm.value | json }}</pre>  -->

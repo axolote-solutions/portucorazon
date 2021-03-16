@@ -28,7 +28,7 @@ export class SurveyComponent implements OnInit {
       data=> {
         this.survey = data;
         this.survey.description = this.replaceMarkText(this.survey.description);
-        this.survey.suggestions = this.replaceMarkText(this.survey.suggestions);
+        this.survey.conclusions = this.replaceMarkText(this.survey.conclusions);
       }, error => {
         console.log(error);
       }
