@@ -15,11 +15,8 @@
     <div class="container">
         <div class="mt-5">
             <br><br><br>
-            <div class="disclaimer">
-                
-                    
-                        {{survey.description}}
-
+            <div class="disclaimer">  
+                <div [innerHtml]="survey.description | safe: 'html'"></div>
             </div>
             
             <div class="row pt-4">
@@ -46,7 +43,7 @@
     
     </div>
     
-        <pre>{{ survey | json }}</pre> 
+        <!-- <pre>{{ survey | json }}</pre>  -->
 
 
 </section>

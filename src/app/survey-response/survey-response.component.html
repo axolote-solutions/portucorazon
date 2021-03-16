@@ -14,9 +14,7 @@
                             <p [style.background-color]= survey.sections[s].sectionColor class="pb-5 pt-3">{{survey.sections[s].title}}</p>
                         </blockquote>
 
-                        <div class="pb-5">
-                            {{survey.sections[s].headerInstructions}}
-                        </div>
+                        <div class="pb-5" [innerHtml]="survey.sections[s].headerInstructions | safe: 'html'"></div>
 
                         <div *ngFor="let questionResponse of questionResponses(s).controls; let q = index"
                             [formGroupName]="q" class="section">
@@ -126,15 +124,11 @@
                         </div>
                     </div>
 
-                    <div class="pt-5">
-                        {{survey.sections[s].footerInstructions}}
-                    </div>
-
                     <div class="btns">
 
                         <div class="container">
-                            <div *ngIf="survey.sections[s].footerMessage">
-                                <div class="pt-4" [innerHtml]="survey.sections[s].footerMessage | safe: 'html'"></div>
+                            <div *ngIf="survey.sections[s].footerInstructions">
+                                <div class="pt-4" [innerHtml]="survey.sections[s].footerInstructions | safe: 'html'"></div>
                             </div>
                         </div>
                         <div style="padding-top:20px;">
