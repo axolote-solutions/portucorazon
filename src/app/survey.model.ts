@@ -9,6 +9,7 @@ export interface Survey {
     surveyTitle: string;
     active: boolean;
     description: string;
+    suggestions: string;
     surveyLogos: Array<string>;
     surveyColor: string;
     sections: Array<Section>

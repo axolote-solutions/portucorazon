@@ -144,23 +144,14 @@
                 </mat-step>
                 <mat-step [completed]=true>
                     <ng-template matStepLabel>Finalizar</ng-template>
-                    <br><br><br>
-                    <div class="survey-end">¡Gracias por sus respuestas!</div>
-                    <br>
-                    <br>
-                    <br>
-                    <p> <b>RECOMENDACIONES</b></p>
-                    <p>1. Haz ejercicio físico un mínimo de tres veces por semana, mantente activo, camina, olvida el ascensor, baja una parada antes de autobús antes. No te quedes en el sofá.</p>
-                    <p>2. Mantén un peso equilibrado.</p>
-                    <p>3. Cuida tu alimentación, añade a tu dieta más vegetales frescos y menos grasa. Disminuye la ingesta de sal.</p>
-                    <p>4. Modera consumo de alcohol, como máximo una copa de vino diaria. No fumes.</p>
-                    <p>5. Controla los niveles de glucosa, presión arterial y de colesterol en tus chequeos de salud.</p>
-                    <p>6. Si eres diabético o hipertenso, lleva un control de las cifras de glucosa y de presión arteria, sigue las recomendaciones de tu profesional de salud.</p>
-                    <p>7. Lleva una vida mas tranquila, con menos estrés. Aprende a relajarte a respirar con calma. Revitaliza los problemas del día a día.</p>
-                    <p>8. Educa a tus hijos en la adquisición de hábitos saludables,les estarás educando en salud.</p>
-                    <p>9. Mantén una vida social. Comunicate con tus amigos. Es bueno sentirse acompañado.</p>
-                    <p>10. confía en tu profesional de la salud y sigue sus recomendaciones. Aprende a cuidarte y a cuidar tu corazón.</p>
-                    <div>
+                    <div class="pt-4 pb-5">
+                        <div class="survey-end">¡Gracias por sus respuestas!</div>
+                    </div>
+                    <div class="pt-5">
+                        <div class="pt-4" [innerHtml]="survey.suggestions | safe: 'html'"></div>
+                    </div>
+                    
+                    <div class="pt-5">
                         <button class="boton boton-info" mat-raised-button type="button" [disabled]="!surveyForm.valid"
                             (click)="saveSurvey()">Finalizar</button>
                     </div>
