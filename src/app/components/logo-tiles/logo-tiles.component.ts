@@ -17,7 +17,7 @@ export class LogoTilesComponent implements OnInit {
   ngOnInit(): void {
 
     for(var i = 0; i < this.logoList.length; i++) {
-      let fileName: string;
+      let fileName: string = null;
       if(this.logoList[i].fileName != "") {
         fileName = "/assets/img/" + this.logoList[i].fileName + ".png"
       }

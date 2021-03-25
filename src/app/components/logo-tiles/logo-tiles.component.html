@@ -4,6 +4,10 @@
         [colspan]="logo.cols"
         [rowspan]="logo.rows"
         >
-        <img src='{{logo.fileName}}'/>
+        <div *ngIf="logo.fileName" class="img-container">
+            <img src='{{logo.fileName}}'/>
+        </div>
+
+        
     </mat-grid-tile>
   </mat-grid-list>
