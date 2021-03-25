@@ -33,6 +33,7 @@ export class SurveyResponseComponent implements OnInit {
     private dialog: MatDialog) {
 
     this.surveyForm = this.fb.group({
+      surveyName: null,
       sectionsResponses: this.fb.array([]),
     })
   }
@@ -42,17 +43,18 @@ export class SurveyResponseComponent implements OnInit {
     this.surveyConfigurationId = this.activatedRoute.snapshot.params.surveyConfigurationId;
     this.companySurveyId = this.activatedRoute.snapshot.params.companySurveyId;
 
+    this.surveyForm.get("surveyName").setValue(this.survey.surveyName);
+
     let i = 0;
     for (let section of this.survey.sections) {
-
-      this.addSection();
+      this.addSection(section.name);
       if (section.enabled) {
         for (let question of section.questions) {
           if (question.display === undefined) {
             question.display = true;
           }
 
-          this.addResponse(i, question, section.name);
+          this.addResponse(i, question);
         }
       }
 
@@ -66,15 +68,16 @@ export class SurveyResponseComponent implements OnInit {
     }
   }
 
-  newSectionResponse(): FormGroup {
+  newSectionResponse(name: string): FormGroup {
     return this.fb.group({
       sectionWeighing: 0,
+      sectionName: name,
       questionResponses: this.fb.array([])
     })
   }
 
-  addSection() {
-    this.sectionsResponses().push(this.newSectionResponse());
+  addSection(name: string) {
+    this.sectionsResponses().push(this.newSectionResponse(name));
   }
 
   sectionsResponses(): FormArray {
@@ -86,7 +89,7 @@ export class SurveyResponseComponent implements OnInit {
   }
 
 
-  newQuestionResponse(question: Question, sectionParent: string, sectionIndex: number): FormGroup {
+  newQuestionResponse(question: Question, sectionIndex: number): FormGroup {
 
     if (question.parent) {
       for (let child of question.childQuestion) {
@@ -99,8 +102,6 @@ export class SurveyResponseComponent implements OnInit {
 
     let group = this.fb.group({});
 
-    const sectionName = new FormControl(sectionParent);
-    group.addControl('sectionName', sectionName);
     const questionText = new FormControl(question.questionText);
     group.addControl('questionText', questionText);
     const questionNumber = new FormControl(question.questionNumber);
@@ -184,8 +185,8 @@ export class SurveyResponseComponent implements OnInit {
     return validatorList;
   }
 
-  addResponse(sectionIndex: number, question: Question, sectionName: string) {
-    this.questionResponses(sectionIndex).push(this.newQuestionResponse(question, sectionName, sectionIndex));
+  addResponse(sectionIndex: number, question: Question) {
+    this.questionResponses(sectionIndex).push(this.newQuestionResponse(question, sectionIndex));
   }
 
   onSubmit() {
@@ -294,9 +295,9 @@ export class SurveyResponseComponent implements OnInit {
   saveSurvey() {
     let responses = JSON.stringify(this.surveyForm.value);
 
-    //let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/response/" + this.surveyConfigurationId;
+    let url = "https://portusalud-api.uc.r.appspot.com/api/v2/survey/response/" + this.surveyConfigurationId;
     //let url = "http://localhost:8080/api/v2/survey/response/" + this.surveyConfigurationId;
-    let url = "https://portucorazon-survey.uc.r.appspot.com/api/v2/survey/response/" + this.surveyConfigurationId;
+    //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v2/survey/response/" + this.surveyConfigurationId;
     
 
 
@@ -304,7 +305,6 @@ export class SurveyResponseComponent implements OnInit {
 
     this.httpClient.post(url, responses, { 'headers': headers }).subscribe(
       (response) => {
-        console.log(response);
         location.reload();
       },
       (error) => {
@@ -337,11 +337,12 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   replaceMarkText(text: string ): string {
-    text = text.replace(/%%/g, '<br>');
-
-    text = text.replace(/##/g, '<b>');
-
-    text = text.replace(/#-#/g, '</b>');
+    
+    if(text) {
+      text = text.replace(/%%/g, '<br>');
+      text = text.replace(/##/g, '<b>');
+      text = text.replace(/#-#/g, '</b>');
+    }
 
     return text;
   }

@@ -37,19 +37,17 @@ export class SurveyComponent implements OnInit {
 
   answer(): void {
     this.respond = !this.respond;
-
-
   }
 
   replaceMarkText(text: string ): string {
-    text = text.replace(/%%/g, '<br>');
 
-    text = text.replace(/##/g, '<b>');
-
-    text = text.replace(/#-#/g, '</b>');
+    if(text) {
+      text = text.replace(/%%/g, '<br>');
+      text = text.replace(/##/g, '<b>');
+      text = text.replace(/#-#/g, '</b>');
+    }
 
     return text;
   }
-
 
 }

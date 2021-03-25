@@ -12,12 +12,11 @@ export class CompanySurveyService {
   ) { }
 
   getCompanySurvey(surveyConfigurationId :String, companySurveyId :String) {
-    //let url = "https://portucorazon-api-294002.uc.r.appspot.com/api/v1/survey/" + surveyConfigurationId + "/" + companySurveyId;
+    let url = "https://portusalud-api.uc.r.appspot.com/api/v2/survey/" + surveyConfigurationId + "/" + companySurveyId;
     //let url = "http://localhost:8080/api/v2/survey/" + surveyConfigurationId + "/" + companySurveyId;
-    let url = "https://portucorazon-survey.uc.r.appspot.com/api/v2/survey/" + surveyConfigurationId + "/" + companySurveyId;
+    //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v2/survey/" + surveyConfigurationId + "/" + companySurveyId;
 
     return this.httpClient.get<Survey>(url);
   }
-
 
 }
