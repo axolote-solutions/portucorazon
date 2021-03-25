@@ -16,12 +16,16 @@ export class LogoTilesComponent implements OnInit {
 
   ngOnInit(): void {
 
-
     for(var i = 0; i < this.logoList.length; i++) {
+      let fileName: string;
+      if(this.logoList[i].fileName != "") {
+        fileName = "/assets/img/" + this.logoList[i].fileName + ".png"
+      }
       this.tiles[i] = {
-        fileName: "/assets/img/" + this.logoList[i].fileName + ".png", 
+        fileName: fileName, 
         cols: this.logoList[i].columns, 
-        rows: this.logoList[i].rows}
+        rows: this.logoList[i].rows
+      }
     }
   }
 

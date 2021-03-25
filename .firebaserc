@@ -27,6 +27,20 @@
           "cuidando-tu-salud-online"
         ]
       }
+    },
+    "cric-pnce": {
+      "hosting": {
+        "por-tu-corazon": [
+          "portusalud-92d7c"
+        ]
+      }
+    },
+    "portusalud-92d7c": {
+      "hosting": {
+        "por-tu-corazon": [
+          "portusalud-92d7c"
+        ]
+      }
     }
   },
   "projects": {
