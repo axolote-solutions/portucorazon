@@ -19,9 +19,9 @@ export class SurveyResponseComponent implements OnInit {
 
   @Input() survey: Survey;
   surveyForm: FormGroup;
-  surveyConfigurationId = "";
-  companySurveyId = "";
-  //console = console;
+  surveyConfigurationId = '';
+  companySurveyId = '';
+  // console = console;
   submitted = false;
   sectionChanged = false;
 
@@ -43,13 +43,13 @@ export class SurveyResponseComponent implements OnInit {
     this.surveyConfigurationId = this.activatedRoute.snapshot.params.surveyConfigurationId;
     this.companySurveyId = this.activatedRoute.snapshot.params.companySurveyId;
 
-    this.surveyForm.get("surveyName").setValue(this.survey.surveyName);
+    this.surveyForm.get('surveyName').setValue(this.survey.surveyName);
 
     let i = 0;
-    for (let section of this.survey.sections) {
+    for (const section of this.survey.sections) {
       this.addSection(section.name);
       if (section.enabled) {
-        for (let question of section.questions) {
+        for (const question of section.questions) {
           if (question.display === undefined) {
             question.display = true;
           }
@@ -73,34 +73,34 @@ export class SurveyResponseComponent implements OnInit {
       sectionWeighing: 0,
       sectionName: name,
       questionResponses: this.fb.array([])
-    })
+    });
   }
 
-  addSection(name: string) {
+  addSection(name: string): void {
     this.sectionsResponses().push(this.newSectionResponse(name));
   }
 
   sectionsResponses(): FormArray {
-    return this.surveyForm.get("sectionsResponses") as FormArray
+    return this.surveyForm.get('sectionsResponses') as FormArray;
   }
 
   questionResponses(sectionIndex: number): FormArray {
-    return this.sectionsResponses().at(sectionIndex).get("questionResponses") as FormArray
+    return this.sectionsResponses().at(sectionIndex).get('questionResponses') as FormArray;
   }
 
 
   newQuestionResponse(question: Question, sectionIndex: number): FormGroup {
 
     if (question.parent) {
-      for (let child of question.childQuestion) {
-        let q = child.questionNumber - 1;
+      for (const child of question.childQuestion) {
+        const q = child.questionNumber - 1;
         this.survey.sections[sectionIndex].questions[q].display = false;
         this.survey.sections[sectionIndex].questions[q].mandatory = false;
       }
 
     }
 
-    let group = this.fb.group({});
+    const group = this.fb.group({});
 
     const questionText = new FormControl(question.questionText);
     group.addControl('questionText', questionText);
@@ -112,12 +112,12 @@ export class SurveyResponseComponent implements OnInit {
       let responseText: FormControl;
       switch (question.responseDataType) {
         case 'INTEGER':
-          let validatorIntegerList: ValidatorFn[] = this.prepareValidators(question);
-          
+          const validatorIntegerList: ValidatorFn[] = this.prepareValidators(question);
+
           responseText = new FormControl('', validatorIntegerList);
           group.addControl('responseText', responseText);
           break;
-        case 'EMAIL': //responseText = new FormControl('', [Validators.required, Validators.email]);
+        case 'EMAIL': // responseText = new FormControl('', [Validators.required, Validators.email]);
           if (question.mandatory) {
             responseText = new FormControl('', [Validators.required, Validators.email]);
           } else {
@@ -125,16 +125,16 @@ export class SurveyResponseComponent implements OnInit {
           }
           group.addControl('responseText', responseText);
           break;
-          
+
         case 'FLOAT':
-          let validatorFloatList: ValidatorFn[] = this.prepareValidators(question);
-          
+          const validatorFloatList: ValidatorFn[] = this.prepareValidators(question);
+
           responseText = new FormControl('', validatorFloatList);
-          
+
           group.addControl('responseText', responseText);
           break;
 
-        default: //responseText = new FormControl('', [Validators.required, Validators.email]);
+        default: // responseText = new FormControl('', [Validators.required, Validators.email]);
           if (question.mandatory) {
             responseText = new FormControl('', Validators.required);
           } else {
@@ -146,7 +146,7 @@ export class SurveyResponseComponent implements OnInit {
 
     } else {
       let responseOption: FormControl;
-      
+
       if (question.mandatory) {
         responseOption = new FormControl('', Validators.required);
       } else {
@@ -158,12 +158,12 @@ export class SurveyResponseComponent implements OnInit {
     return group;
   }
 
-  private prepareValidators(question: Question) {
-    let validatorList: ValidatorFn[] = [];
+  private prepareValidators(question: Question): ValidatorFn[] {
+    const validatorList: ValidatorFn[] = [];
     if (question.mandatory) {
       validatorList.push(Validators.required);
     }
-    if (question.responseDataType==='INTEGER')
+    if (question.responseDataType === 'INTEGER')
     {
       validatorList.push(Validators.pattern("^[0-9]*$"));
     }
@@ -181,7 +181,7 @@ export class SurveyResponseComponent implements OnInit {
         validatorList.push(Validators.maxLength(question.openQuestionConfig.maxLength));
       }
     }
-    
+
     return validatorList;
   }
 
@@ -189,7 +189,7 @@ export class SurveyResponseComponent implements OnInit {
     this.questionResponses(sectionIndex).push(this.newQuestionResponse(question, sectionIndex));
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.sectionChanged) {
       this.submitted = false;
       this.sectionChanged = false;
@@ -202,29 +202,29 @@ export class SurveyResponseComponent implements OnInit {
   selectionChange(event: any): void {
     this.sectionChanged = true;
     document.documentElement.scrollTop = 0;
-    
-    let selectedIndex = event.previouslySelectedIndex;
 
-    let filledSection = this.survey.sections[selectedIndex];
+    const selectedIndex = event.previouslySelectedIndex;
+
+    const filledSection = this.survey.sections[selectedIndex];
 
     if (filledSection.weighingConfiguration) {
-      let responsesValues = this.questionResponses(selectedIndex).value;
+      const responsesValues = this.questionResponses(selectedIndex).value;
 
-      let sumDimensions: number[] = [0, 0, 0, 0, 0];
-      let countDimensions: number[] = [0, 0, 0, 0, 0];
+      const sumDimensions: number[] = [0, 0, 0, 0, 0];
+      const countDimensions: number[] = [0, 0, 0, 0, 0];
 
-      let totalPoints: number = 0;
+      let totalPoints = 0;
       let index = 1;
 
-      for (let responseValue of responsesValues) {
-        if(!responseValue.responseOption) {
+      for (const responseValue of responsesValues) {
+        if (!responseValue.responseOption) {
           continue;
         }
-        let questionPoints = responseValue.responseOption.value;
+        const questionPoints = responseValue.responseOption.value;
 
         if (filledSection.weighingConfiguration.multiDimensionWeighingMessages) {
-          let questionDimension = filledSection.questions[index - 1].dimension;
-          
+          const questionDimension = filledSection.questions[index - 1].dimension;
+
           sumDimensions[questionDimension - 1] = sumDimensions[questionDimension - 1] + questionPoints;
           countDimensions[questionDimension - 1] = countDimensions[questionDimension - 1] + 1;
         }
@@ -241,13 +241,13 @@ export class SurveyResponseComponent implements OnInit {
         }
       }
 
-      this.sectionsResponses().at(selectedIndex).get("sectionWeighing").setValue(totalPoints);
+      this.sectionsResponses().at(selectedIndex).get('sectionWeighing').setValue(totalPoints);
 
-      let allText: string[] = [];
+      const allText: string[] = [];
 
-      var showMessage = false;
+      let showMessage = false;
 
-      for (let weigh of filledSection.weighingConfiguration.weighingMessages) {
+      for (const weigh of filledSection.weighingConfiguration.weighingMessages) {
         if (totalPoints < weigh.limit) {
 
           allText.push(this.replaceMarkText(weigh.text));
@@ -257,9 +257,9 @@ export class SurveyResponseComponent implements OnInit {
       }
 
       if (filledSection.weighingConfiguration.multiDimensionWeighingMessages) {
-        for (var weighDimension of filledSection.weighingConfiguration.multiDimensionWeighingMessages) {
+        for (const weighDimension of filledSection.weighingConfiguration.multiDimensionWeighingMessages) {
           for (let i = 0; i < sumDimensions.length; i++) {
-            let sum = sumDimensions[i];
+            const sum = sumDimensions[i];
 
             if (weighDimension.dimension === i + 1 && sum < weighDimension.limit) {
               allText.push(this.replaceMarkText(weighDimension.text));
@@ -287,18 +287,18 @@ export class SurveyResponseComponent implements OnInit {
     dialogConfig.data = {
       text: text,
       header: head
-    }
+    };
 
     this.dialog.open(WeighingMessageComponent, dialogConfig);
   }
 
-  saveSurvey() {
-    let responses = JSON.stringify(this.surveyForm.value);
+  saveSurvey(): void {
+    const responses = JSON.stringify(this.surveyForm.value);
 
-    let url = "https://portusalud-api.uc.r.appspot.com/api/v2/survey/response/" + this.surveyConfigurationId;
-    //let url = "http://localhost:8080/api/v2/survey/response/" + this.surveyConfigurationId;
-    //let url = "https://portucorazon-survey.uc.r.appspot.com/api/v2/survey/response/" + this.surveyConfigurationId;
-    
+    const url = "https://portusalud-api.uc.r.appspot.com/api/v2/survey/response/" + this.surveyConfigurationId;
+    // let url = "http://localhost:8080/api/v2/survey/response/" + this.surveyConfigurationId;
+    // let url = "https://portucorazon-survey.uc.r.appspot.com/api/v2/survey/response/" + this.surveyConfigurationId;
+
 
 
     const headers = { 'Content-Type': 'application/json' };
@@ -309,21 +309,21 @@ export class SurveyResponseComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        
+
         location.reload();
 
       }
-    )
+    );
   }
 
-  radioChange(event: any, section: number, question: number) {
+  radioChange(event: any, section: number, question: number): void {
     if (this.survey.sections[section].questions[question].parent) {
-      for (let childQuestion of this.survey.sections[section].questions[question].childQuestion) {
+      for (const childQuestion of this.survey.sections[section].questions[question].childQuestion) {
         if (event.value.value === childQuestion.responseValue) {
-          let i = childQuestion.questionNumber - 1;
+          const i = childQuestion.questionNumber - 1;
           this.survey.sections[section].questions[i].display = true;
         } else {
-          let i = childQuestion.questionNumber - 1;
+          const i = childQuestion.questionNumber - 1;
           this.survey.sections[section].questions[i].display = false;
         }
       }
@@ -337,8 +337,8 @@ export class SurveyResponseComponent implements OnInit {
   }
 
   replaceMarkText(text: string ): string {
-    
-    if(text) {
+
+    if (text) {
       text = text.replace(/%%/g, '<br>');
       text = text.replace(/##/g, '<b>');
       text = text.replace(/#-#/g, '</b>');
